@@ -18,6 +18,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>registry-memory</module>
+        <module>graceful-online-offline</module>
     </modules>
 
     <dependencies>

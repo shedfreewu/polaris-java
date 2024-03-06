@@ -44,6 +44,16 @@ public interface ProviderAPI extends AutoCloseable, Closeable {
      */
     InstanceRegisterResponse registerInstance(InstanceRegisterRequest req) throws PolarisException;
 
+    // TODO: 2024/3/5 需要额外配置
+    /**
+     * 优雅注册服务实例（健康探测通过后再注册实例），同时根据用户设置的 heartbeat ttl 维护心跳任务
+     *
+     * @param req register request
+     * @return service register response
+     * @throws PolarisException polaris exception
+     */
+    InstanceRegisterResponse gracefulRegisterInstance(InstanceRegisterRequest req) throws PolarisException;
+
     /**
      * 同步注册服务实例
      *

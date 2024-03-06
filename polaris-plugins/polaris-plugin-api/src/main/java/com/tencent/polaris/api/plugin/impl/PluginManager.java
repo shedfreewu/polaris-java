@@ -25,6 +25,7 @@ import com.tencent.polaris.api.plugin.Plugin;
 import com.tencent.polaris.api.plugin.PluginType;
 import com.tencent.polaris.api.plugin.common.InitContext;
 import com.tencent.polaris.api.plugin.compose.Extensions;
+import com.tencent.polaris.api.plugin.httpserver.HttpServerManager;
 import com.tencent.polaris.api.utils.MapUtils;
 import com.tencent.polaris.api.utils.StringUtils;
 import java.util.Collection;
@@ -80,6 +81,7 @@ public class PluginManager implements Manager {
                 pluginEntry.getValue().init(context);
             }
         }
+        // TODO: 2024/3/4 优雅上下线可能依赖其他的
     }
 
     /**
@@ -99,6 +101,8 @@ public class PluginManager implements Manager {
                 plugin.postContextInit(extensions);
             }
         }
+        // TODO: 2024/3/4 http server 的需要统一初始化
+        HttpServerManager.startServers();
     }
 
     /**

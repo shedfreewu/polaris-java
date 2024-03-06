@@ -51,6 +51,7 @@ public class PluginConfigImpl implements PluginConfig {
     private static final Map<String, Class<? extends Verifier>> pluginConfigClazz = new HashMap<>();
 
     static {
+        // TODO: 2024/3/4 需要确认是否需要配置
         ServiceLoader<PluginConfigProvider> providers = ServiceLoader.load(PluginConfigProvider.class);
         for (PluginConfigProvider provider : providers) {
             pluginConfigClazz.put(provider.getName(), provider.getPluginConfigClazz());

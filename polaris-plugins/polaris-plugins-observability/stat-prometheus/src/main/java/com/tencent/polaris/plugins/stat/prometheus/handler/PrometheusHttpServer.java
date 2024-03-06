@@ -20,6 +20,7 @@ package com.tencent.polaris.plugins.stat.prometheus.handler;
 import com.sun.net.httpserver.HttpServer;
 import com.tencent.polaris.api.exception.ErrorCode;
 import com.tencent.polaris.api.exception.PolarisException;
+import com.tencent.polaris.api.plugin.httpserver.HttpServerManager;
 import com.tencent.polaris.client.util.NamedThreadFactory;
 import com.tencent.polaris.logging.LoggerFactory;
 import java.io.IOException;
@@ -57,11 +58,11 @@ public class PrometheusHttpServer {
      */
     private static final int MAX_RANDOM_PORT = 65535;
 
-    private final HttpServer httpServer;
-
-    private final ThreadFactory threadFactory;
-
-    private final ExecutorService executor;
+//    private final HttpServer httpServer;
+//
+//    private final ThreadFactory threadFactory;
+//
+//    private final ExecutorService executor;
 
     private final String host;
 
@@ -78,18 +79,21 @@ public class PrometheusHttpServer {
             this.host = host;
             this.path = path;
             setServerPort(port);
-            threadFactory = new DaemonNamedThreadFactory("prometheus-http");
-            httpServer = HttpServer.create(new InetSocketAddress(this.host, this.port), 3);
+
+            HttpServer httpServer = HttpServerManager.getHttpServer(this.port);
+
+//            threadFactory = new DaemonNamedThreadFactory("prometheus-http");
+//            httpServer = HttpServer.create(new InetSocketAddress(this.host, this.port), 3);
             HttpMetricHandler metricHandler = new HttpMetricHandler(registry);
             httpServer.createContext("/", metricHandler);
             httpServer.createContext(path, metricHandler);
             httpServer.createContext("/-/healthy", metricHandler);
-            executor = Executors.newFixedThreadPool(3, threadFactory);
-            httpServer.setExecutor(executor);
-            startServer();
-        } catch (IOException e) {
+//            executor = Executors.newFixedThreadPool(3, threadFactory);
+//            httpServer.setExecutor(executor);
+//            startServer();
+        } catch (Exception e) {
             LOGGER.error("Create prometheus http server exception. host:{}, port:{}, path:{}", host, port, path, e);
-            throw new UncheckedIOException("Create prometheus http server failed!", e);
+            throw new RuntimeException("Create prometheus http server failed!", e);
         }
     }
 
@@ -139,26 +143,26 @@ public class PrometheusHttpServer {
      * Start prometheus http server in a daemon thread
      */
     private void startServer() {
-        if (Thread.currentThread().isDaemon()) {
-            httpServer.start();
-            return;
-        }
-
-        Thread httpServerThread = threadFactory.newThread(httpServer::start);
-        httpServerThread.start();
-        try {
-            httpServerThread.join();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+//        if (Thread.currentThread().isDaemon()) {
+//            httpServer.start();
+//            return;
+//        }
+//
+//        Thread httpServerThread = threadFactory.newThread(httpServer::start);
+//        httpServerThread.start();
+//        try {
+//            httpServerThread.join();
+//        } catch (InterruptedException e) {
+//            Thread.currentThread().interrupt();
+//        }
     }
 
     /**
      * Stop the prometheus http server and executor
      */
     public void stopServer() {
-        httpServer.stop(0);
-        executor.shutdownNow();
+//        httpServer.stop(0);
+//        executor.shutdownNow();
     }
 
     public String getHost() {

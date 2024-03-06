@@ -42,6 +42,16 @@ public class DefaultProviderAPI extends BaseEngine implements ProviderAPI {
     }
 
     @Override
+    public InstanceRegisterResponse gracefulRegisterInstance(InstanceRegisterRequest req)
+        throws PolarisException {
+
+
+
+
+        return null;
+    }
+
+    @Override
     protected void doDestroy() {
         RegisterStateManager.destroy(sdkContext);
         super.doDestroy();
@@ -59,6 +69,7 @@ public class DefaultProviderAPI extends BaseEngine implements ProviderAPI {
 
     @Override
     public void deRegister(InstanceDeregisterRequest req) throws PolarisException {
+        // TODO: 2024/3/5 只能反注册一次
         checkAvailable("ProviderAPI");
         Validator.validateInstanceDeregisterRequest(req);
         discoveryFlow.deRegister(req);

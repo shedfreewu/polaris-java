@@ -30,6 +30,7 @@ import com.tencent.polaris.api.plugin.loadbalance.LoadBalancer;
 import com.tencent.polaris.api.plugin.location.LocationProvider;
 import com.tencent.polaris.api.plugin.ratelimiter.ServiceRateLimiter;
 import com.tencent.polaris.api.plugin.registry.LocalRegistry;
+import com.tencent.polaris.api.plugin.registry.Lossless;
 import com.tencent.polaris.api.plugin.route.ServiceRouter;
 import com.tencent.polaris.api.plugin.server.ServerConnector;
 import com.tencent.polaris.api.plugin.stat.StatReporter;
@@ -114,7 +115,11 @@ public enum PluginTypes {
      */
     CONFIG_FILE_CONNECTOR(new PluginType(ConfigFileConnector.class, 2)),
 
-    CONFIG_FILE_GROUP_CONNECTOR(new PluginType(ConfigFileGroupConnector.class, 2));
+    CONFIG_FILE_GROUP_CONNECTOR(new PluginType(ConfigFileGroupConnector.class, 2)),
+
+    LOSSLESS(new PluginType(Lossless.class, 3)),
+
+    ;
 
     private PluginType baseType;
 

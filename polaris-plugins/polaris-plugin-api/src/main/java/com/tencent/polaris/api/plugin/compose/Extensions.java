@@ -296,4 +296,6 @@ public class Extensions {
     public FlowCache getFlowCache() {
         return flowCache;
     }
+
+    // TODO: 2024/3/4 如果新增插件类型，需要这里添加
 }
