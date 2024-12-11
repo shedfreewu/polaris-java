@@ -126,6 +126,11 @@ public class CompositeServiceUpdateTask extends ServiceUpdateTask {
                 || serviceEventKey.getEventType().equals(EventType.BLOCK_ALLOW_RULE)))) {
             return;
         }
+        // when the connector type is grpc, do not notify empty event
+        if (StringUtils.equals(mainConnectorType, SERVER_CONNECTOR_GRPC)) {
+            return;
+        }
+
         boolean svcDeleted = this.notifyServerEvent(
                 new ServerEvent(serviceEventKey, DiscoverResponse.newBuilder().build(), null));
         if (!svcDeleted) {
